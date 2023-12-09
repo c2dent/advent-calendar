@@ -1,0 +1,177 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <style>
+        body {
+            background-image: url("{% static 'images/main_background.png' %}");
+            background-size: cover;
+        }
+    </style>
+</head>
+<body>
+<div id="wrapper" style="overflow: hidden">
+    <div id="app" style="overflow:hidden">
+        <transition name="fade">
+            <div class="success-modal" v-if="successModal">
+                <div class="card" style="width: 90%; padding: 15px 0; border-radius: 15px;">
+                    <div class="d-flex justify-content-end" style="padding-right: 10px;">
+                        <ion-icon name="close" class="close-icon" @click="closeSuccessModal"></ion-icon>
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <img src="{% static 'images/box.svg' %}" alt="" width="138">
+                    </div>
+
+                    <div style="height: 10px;"></div>
+                    <div class="content">
+                        <span class="content-header" style="font-size: 22px;">Ваш подарок уже в чате!</span>
+                        <span class="content-text">Вернитесь в чат, где вас ждет ваш подарок на сегодня.</span>
+                    </div>
+
+                    <div style="height: 20px;"></div>
+                    <div class="d-flex justify-content-center">
+                        <button type="button" class="btn btn-dark" @click="closeApp" style="width: 90%; padding: 9px 1px; border-radius: 10px;">Закрыть
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </transition>
+
+        <transition name="slide-fade">
+            <div style="overflow: hidden" v-if="modalIsOpened">
+                <div class="second-screen">
+                    <div>
+                        <img src="{% static 'images/top.png' %}" alt="" width="100%">
+                        <div style="height: 20px"></div>
+
+                        <div class="box-wrapper">
+                            <img :src="selectedItem.cell.webapp_image" alt="" class="square-image">
+                        </div>
+
+                        <div class="content-wrap">
+                            <div class="content">
+                                <span class="content-header">Поздравляем!🎉</span>
+                                <span class="content-text">[[ contentText ]]</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="content-stars">
+                        <img src="{% static 'images/star.svg' %}" alt="" width="100%">
+                    </div>
+                </div>
+            </div>
+
+        </transition>
+
+
+        <div class="first-screen" style="overflow-y: scroll; height: 100vh">
+            <div style="height: 340px">
+            </div>
+            <div class="list-cell">
+                <div v-for="item in userCells" :key="item.id" class="cell-item-wrapper" @click="() => openModal(item)" style="cursor: pointer">
+                    <div class="item-decor-header">
+                        <img src="{% static 'images/item_cloud.png' %}" alt="" width="104">
+                    </div>
+
+                    <div class="cell-status">
+                        <img v-if="item.is_opened" src="{% static 'images/opened-icon.png' %}" alt="" width="16">
+                        <img v-else-if="item.cell.available" src="{% static 'images/unlocked-icon.png' %}" alt="" width="16">
+                        <img v-else src="{% static 'images/locked-icon.png' %}" alt="" width="16">
+                    </div>
+
+                    <div class="cell-date">
+                        <span>[[ item.cell.open_date.split('-')[2] ]].[[ item.cell.open_date.split('-')[1] ]]</span>
+                    </div>
+
+                    <div class="cell-item">
+                        <span class="number">
+                            [[ item.cell.number ]]
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+<script>
+    let data = JSON.parse('{{ data|escapejs|safe }}');
+    let userId = "{{ user.user_id }}";
+    document.body.style.overflow = 'hidden';
+    let tgApp = window.Telegram.WebApp;
+    let app = new Vue({
+        delimiters: ['[[', ']]'],
+        el: '#app',
+        data: {
+            modalIsOpened: false,
+            successModal: false,
+            contentText: "",
+            cellId: "",
+            selectedItem: {},
+            userCells: data,
+        },
+        methods: {
+            openModal: function (item) {
+                if (item.cell.available === false) return
+
+                this.selectedItem = item;
+                this.contentText = item.cell.description;
+                this.cellId = item.cell.id;
+                this.modalIsOpened = true;
+                tgApp.BackButton.show();
+                tgApp.BackButton.onClick(this.closeModal);
+                tgApp.MainButton.setParams({'text': 'Получить', 'color': '#1B1B1B'})
+                tgApp.MainButton.show();
+                this.selectedItem = item;
+                tgApp.MainButton.onClick(this.sendMessage);
+            },
+            closeModal: function () {
+                this.modalIsOpened = false;
+                document.body.style.overflow = 'auto';
+                tgApp.BackButton.hide();
+                tgApp.MainButton.hide();
+            },
+            closeSuccessModal: function () {
+                this.successModal = false;
+            },
+            closeApp: function () {
+                tgApp.close()
+            },
+            sendMessage: function () {
+                fetch(`/send-message/?user_id=${userId}&cell_id=${this.cellId}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                }).then(res => console.log(res))
+                this.successModal = true;
+
+                for (let item in this.userCells){
+                    if (item.cell.id === this.cellId) {
+                        item.is_opened = true;
+                        return;
+                    }
+                }
+            }
+        }
+    })
+</script>
+</html>
