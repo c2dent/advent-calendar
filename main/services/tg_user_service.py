@@ -11,7 +11,7 @@ class TgUserService:
 
         user = None
         if exists is False:
-            user = TgUser(user_id=m.chat.id, first_name=m.chat.first_name, last_name=m.chat.last_name)
+            user = TgUser(user_id=m.chat.id, first_name=m.chat.first_name, last_name=m.chat.last_name, username=m.chat.username)
             user.save()
         else:
             user = TgUser.objects.filter(user_id=m.chat.id).first()
