@@ -23,11 +23,10 @@ from django.urls import path, include
 from main import views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
     path('djrichtextfield/', include('djrichtextfield.urls')),
     path('advent/<int:user_id>/', views.advent, name='advent'),
     path('send-message/', views.send_message, name='send_message'),
+    path('', admin.site.urls),
 ]
-
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

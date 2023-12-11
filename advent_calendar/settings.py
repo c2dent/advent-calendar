@@ -164,7 +164,8 @@ CELERY_BEAT_SCHEDULE = {
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
-STATIC_ROOT = '/static/'
+STATIC_URL = '/static/'
+STATIC_ROOT = 'static_root'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
