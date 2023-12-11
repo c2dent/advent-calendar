@@ -34,7 +34,7 @@ TG_BOT_TOKEN = config['MAIN']['TG_BOT_TOKEN']
 CSRF_TRUSTED_ORIGINS = ['https://' + MAIN_HOST]
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config['MAIN']['DEBUG']
 
 ALLOWED_HOSTS = config['MAIN']['ALLOWED_HOSTS'].split(',') + [MAIN_HOST]
 
