@@ -122,6 +122,9 @@ body {
 .content {
     width: 322px;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .content-header {
@@ -130,9 +133,11 @@ body {
     font-size: 28px;
     font-weight: bold;
     color: black;
+    text-align: center;
 }
 
 .content-text {
+    text-align: center;
     font-family: SFProText, sans-serif;
     display: block;
     font-size: 17px;

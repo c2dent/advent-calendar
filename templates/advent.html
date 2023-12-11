@@ -27,7 +27,7 @@
     <div id="app" style="overflow:hidden">
         <transition name="fade">
             <div class="success-modal" v-if="successModal">
-                <div class="card" style="width: 90%; padding: 15px 0; border-radius: 15px;">
+                <div class="card" style="padding: 15px; border-radius: 15px;">
                     <div class="d-flex justify-content-end" style="padding-right: 10px;">
                         <ion-icon name="close" class="close-icon" @click="closeSuccessModal"></ion-icon>
                     </div>
@@ -58,7 +58,7 @@
                         <div style="height: 20px"></div>
 
                         <div class="box-wrapper">
-                            <img :src="selectedItem.cell.webapp_image" alt="" class="square-image">
+                            <img :src="selectedCellImage" alt="" class="square-image">
                         </div>
 
                         <div class="content-wrap">
@@ -127,12 +127,14 @@
             cellId: "",
             selectedItem: {},
             userCells: data,
+            selectedCellImage: "",
         },
         methods: {
             openModal: function (item) {
                 if (item.cell.available === false) return
 
                 this.selectedItem = item;
+                this.selectedCellImage = window.location.origin + item.cell.webapp_image;
                 this.contentText = item.cell.description;
                 this.cellId = item.cell.id;
                 this.modalIsOpened = true;
