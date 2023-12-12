@@ -82,7 +82,7 @@
             </div>
             <div class="list-cell">
                 <div v-for="item in userCells" :key="item.id" class="cell-item-wrapper">
-                    <div class="item-box"  @click="() => openModal(item)" style="cursor: pointer">
+                    <div class="item-box" @click="() => openModal(item)" style="cursor: pointer">
                         <div class="item-decor-header">
                             <img src="{% static 'images/item_cloud.png' %}" alt="" width="104">
                         </div>
@@ -134,9 +134,9 @@
             lastVisible: false,
         },
         created: function () {
-          let remainder = this.userCells.length % 3;
-          if (remainder === 2) this.lastVisible = true;
-          console.log(remainder);
+            let remainder = this.userCells.length % 3;
+            if (remainder === 2) this.lastVisible = true;
+            console.log(remainder);
         },
         methods: {
             openModal: function (item) {

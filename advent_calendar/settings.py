@@ -152,14 +152,7 @@ DJRICHTEXTFIELD_CONFIG = {
     }
 }
 
-CELERY_BROKER_URL = 'amqp://localhost'
-
-CELERY_BEAT_SCHEDULE = {
-    'send_planned_messages': {
-        'task': 'main.tasks.send_planned_messages',  # Укажите путь к вашей задаче
-        'schedule': timedelta(minutes=1),  # Задача будет выполняться каждый час
-    },
-}
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
