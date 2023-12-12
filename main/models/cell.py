@@ -7,7 +7,8 @@ class Cell(models.Model):
     description = models.CharField(verbose_name='Содержимое', max_length=250)
     message_image = models.ImageField(upload_to='upload/', verbose_name='Баннер сообщении')
     webapp_image = models.ImageField(upload_to='upload/', verbose_name='Фото миниапп')
-    content = RichTextField(max_length=4000)
+    content = RichTextField(max_length=1010, verbose_name="Текст под фото")
+    additional_info = RichTextField(max_length=4000, verbose_name="Текст доп сообщении", null=True, blank=True)
     open_date = models.DateField(verbose_name="Когда будет доступен")
 
     class Meta:

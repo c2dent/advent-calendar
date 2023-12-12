@@ -1,3 +1,4 @@
+import html
 import json
 import textwrap
 
@@ -40,13 +41,14 @@ def send_message(request):
     bot = telebot.TeleBot(settings.TG_BOT_TOKEN)
     photo = open(user_cell.cell.message_image.path, 'rb')
     message_text = user_cell.cell.content.replace('<p>', '').replace('</p>', '').replace('<br />', '')
-    split_texts = split_text(message_text, 1010)
-    bot.send_photo(user_id, photo, caption=split_texts[0], parse_mode='HTML')
+    message_text = html.unescape(message_text)
+    bot.send_photo(user_id, photo, caption=message_text, parse_mode='HTML')
     photo.close()
 
-    split_texts.pop(0)
-    if len(split_texts) > 0:
-        bot.send_message(user_id, " ".join(split_texts), parse_mode='HTML')
+    if user_cell.cell.additional_info is not None and user_cell.cell.additional_info != "":
+        message_text = user_cell.cell.additional_info.replace('<p>', '').replace('</p>', '').replace('<br />', '')
+        message_text = html.unescape(message_text)
+        bot.send_message(user_id, message_text, parse_mode='HTML')
 
     user_cell.is_opened = True
     user_cell.save()
