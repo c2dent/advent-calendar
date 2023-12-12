@@ -120,6 +120,7 @@
     let userId = "{{ user.user_id }}";
     document.body.style.overflow = 'hidden';
     let tgApp = window.Telegram.WebApp;
+    tgApp.expand();
     let app = new Vue({
         delimiters: ['[[', ']]'],
         el: '#app',
