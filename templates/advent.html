@@ -81,27 +81,31 @@
             <div style="height: 340px">
             </div>
             <div class="list-cell">
-                <div v-for="item in userCells" :key="item.id" class="cell-item-wrapper" @click="() => openModal(item)" style="cursor: pointer">
-                    <div class="item-decor-header">
-                        <img src="{% static 'images/item_cloud.png' %}" alt="" width="104">
-                    </div>
+                <div v-for="item in userCells" :key="item.id" class="cell-item-wrapper">
+                    <div class="item-box"  @click="() => openModal(item)" style="cursor: pointer">
+                        <div class="item-decor-header">
+                            <img src="{% static 'images/item_cloud.png' %}" alt="" width="104">
+                        </div>
 
-                    <div class="cell-status">
-                        <img v-if="item.is_opened" src="{% static 'images/opened-icon.png' %}" alt="" width="16">
-                        <img v-else-if="item.cell.available" src="{% static 'images/unlocked-icon.png' %}" alt="" width="16">
-                        <img v-else src="{% static 'images/locked-icon.png' %}" alt="" width="16">
-                    </div>
+                        <div class="cell-status">
+                            <img v-if="item.is_opened" src="{% static 'images/opened-icon.png' %}" alt="" width="16">
+                            <img v-else-if="item.cell.available" src="{% static 'images/unlocked-icon.png' %}" alt="" width="16">
+                            <img v-else src="{% static 'images/locked-icon.png' %}" alt="" width="16">
+                        </div>
 
-                    <div class="cell-date">
-                        <span>[[ item.cell.open_date.split('-')[2] ]].[[ item.cell.open_date.split('-')[1] ]]</span>
-                    </div>
+                        <div class="cell-date">
+                            <span>[[ item.cell.open_date.split('-')[2] ]].[[ item.cell.open_date.split('-')[1] ]]</span>
+                        </div>
 
-                    <div class="cell-item">
+                        <div class="cell-item">
                         <span class="number">
                             [[ item.cell.number ]]
                         </span>
+                        </div>
                     </div>
                 </div>
+
+                <div v-if="lastVisible" class="cell-item-wrapper"></div>
 
             </div>
         </div>
@@ -126,7 +130,12 @@
             cellId: "",
             selectedItem: {},
             userCells: data,
-            selectedCellImage: "",
+            lastVisible: false,
+        },
+        created: function () {
+          let remainder = this.userCells.length % 3;
+          if (remainder === 2) this.lastVisible = true;
+          console.log(remainder);
         },
         methods: {
             openModal: function (item) {

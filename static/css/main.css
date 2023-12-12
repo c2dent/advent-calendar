@@ -21,20 +21,30 @@ body {
 }
 
 .list-cell {
-    padding: 0 12px;
     display: flex;
-    flex-wrap: wrap;
-    justify-content: left;
+    flex-flow: row wrap;
+    justify-content: space-around;
+}
+
+.list-cell::after {
+    content: "";
+    flex: auto;
 }
 
 .cell-item-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 33.33%;
+}
+
+.item-box {
     width: 106px;
     height: 147px;
     background-color: rgba(69, 69, 69, 0.8);
     position: relative;
     border-radius: 8px;
     margin-bottom: 15px;
-    margin-left: 8px;
 }
 
 .cell-item {
@@ -168,8 +178,9 @@ body {
 }
 
 .fade-enter-active, .fade-leave-active {
-  transition: opacity .5s;
+    transition: opacity .5s;
 }
+
 .fade-enter, .fade-leave-to {
-  opacity: 0;
+    opacity: 0;
 }

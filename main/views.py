@@ -24,7 +24,7 @@ def advent(request, user_id):
     for item in cells:
         TgUserService.create_if_not_user_cell(cell=item, user=user)
 
-    user_cells = UserCell.objects.filter(tg_user=user)
+    user_cells = UserCell.objects.filter(tg_user=user).order_by('cell__number')
     serializer_data = json.dumps(UserCellSerializer(user_cells, many=True).data)
     return render(request, 'advent.html', {'data': serializer_data, 'user': user, 'cells': user_cells})
 
