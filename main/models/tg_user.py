@@ -2,7 +2,7 @@ from django.db import models
 
 
 class TgUser(models.Model):
-    user_id = models.IntegerField(verbose_name='Ид в телеграмм', unique=True)
+    user_id = models.BigIntegerField(verbose_name='Ид в телеграмм', unique=True)
     first_name = models.CharField(verbose_name='Имя', max_length=128)
     last_name = models.CharField(verbose_name='Фамилия', null=True, blank=True, max_length=60)
     username = models.CharField(verbose_name="tg username", null=True, blank=True, max_length=100)
