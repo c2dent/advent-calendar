@@ -95,6 +95,9 @@ DATABASES = {
     }
 }
 
+if config['DATABASE'] is not None:
+    DATABASES = config['DATABASE']
+
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
