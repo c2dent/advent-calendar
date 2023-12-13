@@ -13,7 +13,7 @@ def send_planned_messages(bot: TeleBot):
         message_text = html.unescape(message_text)
 
         additional_text = None
-        if message.additional_info is not None:
+        if message.additional_info is not None and message.additional_info != "":
             additional_text = message.additional_info.replace('<p>', '').replace('</p>', '').replace('<br />', '')
             additional_text = html.unescape(additional_text)
 
