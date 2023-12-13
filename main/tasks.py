@@ -20,6 +20,7 @@ def send_planned_messages(bot: TeleBot):
         photo = open(message.message_image.path, 'rb')
         for user in TgUser.objects.all():
             bot.send_photo(user.user_id, photo, caption=message_text, parse_mode='HTML')
+            photo.close()
 
             if additional_text is not None:
                 bot.send_message(user.user_id, additional_text, parse_mode='HTML')
