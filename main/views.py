@@ -6,7 +6,6 @@ import telebot
 from django.conf import settings
 from django.http import JsonResponse
 from django.shortcuts import render
-from django.utils.html import format_html
 
 from main.models import TgUser, UserCell, Cell
 from main.seriazlizers.user_cell_serializer import UserCellSerializer
