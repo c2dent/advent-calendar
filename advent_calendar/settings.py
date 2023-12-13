@@ -95,7 +95,7 @@ DATABASES = {
     }
 }
 
-if config['DATABASE'] is not None:
+if 'DATABASE' in config.keys():
     DATABASES = config['DATABASE']
 
 # Password validation
