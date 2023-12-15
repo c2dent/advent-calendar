@@ -14,7 +14,7 @@ class CellAdmin(admin.ModelAdmin):
 
 @admin.register(TgUser)
 class Admin(admin.ModelAdmin):
-    list_display = ['first_name', 'last_name', 'user_id']
+    list_display = ['first_name', 'last_name', 'user_id', 'id']
 
 
 class ImageFormSet(forms.BaseInlineFormSet):

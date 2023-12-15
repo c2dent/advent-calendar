@@ -11,9 +11,13 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         bot = telebot.TeleBot(settings.TG_BOT_TOKEN)
+        launched = True
         try:
-            while True:
-                send_planned_messages(bot)
-                time.sleep(60)
+            while launched:
+                try:
+                    send_planned_messages(bot)
+                    time.sleep(60)
+                except Exception as e:
+                    launched = False
         except KeyboardInterrupt:
             print("Остановка задачи...")
